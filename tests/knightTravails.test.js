@@ -1,4 +1,4 @@
-import { knightMoves } from '../src/knightMoves.js'
+import knightMoves from '../src/knightMoves.js'
 
 describe('knightMoves tests', () => {
     test('1 move with single path', () => {
