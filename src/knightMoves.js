@@ -1,3 +1,5 @@
-export default knightMoves = (start, destination) => {
+import { Node } from './Node.js';
+
+export default knightMoves = (start, end) => {
     
 }
