@@ -1,22 +1,18 @@
 import { Node } from './Node.js';
 
 export default knightMoves = (start, end) => {
-    let path = [];
-    let queue = [];
-    const rootNode = new Node(start, null);
-
-    queue.push(rootNode)
-    let reversePath = bfsTraversal(queue, end);
-    path = reversePath.reverse();
+    let reversePath = bfsTraversal(start, end);
+    let path = reversePath.reverse();
 
     return path;
 }
 
-const bfsTraversal = (queue, end) => {
-    let reversePath = [];
+const bfsTraversal = (start, end, reversePath = []) => {
+    const rootNode = new Node(start, null);
+    let queue = [rootNode]
+    
     while (queue.length !== 0) {
         let currentNode = queue.shift();
-        let validPositions;
 
         if (JSON.stringify(currentNode.position) === JSON.stringify(end)) {
             reversePath.push(currentNode.position);
@@ -26,7 +22,7 @@ const bfsTraversal = (queue, end) => {
             }
             return reversePath;
         } else {
-            validPositions = checkValidPositions(currentNode.position);
+            let validPositions = checkValidPositions(currentNode.position);
             validPositions.forEach((validPosition) => {
                 const nextNode = new Node(validPosition, currentNode);
                 queue.push(nextNode);
