@@ -12,32 +12,34 @@ export default knightMoves = (start, end) => {
     }
 
     queue.push(rootNode)
-    path = bfsTraversal(queue, end);
+    let reversePath = bfsTraversal(queue, end);
+    path = reversePath.reverse();
 
     return path;
 }
 
 const bfsTraversal = (queue, end) => {
-    let path = [];
+    let reversePath = [];
     while (queue.length !== 0) {
         let currentNode = queue.shift();
         let validPositions;
 
         if (JSON.stringify(currentNode.position) === JSON.stringify(end)) {
-            path.push(currentNode.position);
-            while (currentNode.previousPosition !== null) {
-                path.push(currentNode.previousPosition);
-                currentNode 
+            reversePath.push(currentNode.position);
+            while (currentNode.previousNode !== null) {
+                reversePath.push(currentNode.previousNode.position);
+                currentNode = currentNode.previousNode;
             }
-            return path;
+            return reversePath;
         } else {
             validPositions = checkValidPositions(currentNode.position);
             validPositions.forEach((validPosition) => {
-                const nextNode = new Node(validPosition, currentNode.position);
-                queue.push(nextNode)
+                const nextNode = new Node(validPosition, currentNode);
+                queue.push(nextNode);
             })
         }
     }
+    // No return statement as given the knight's move pattern, it will eventually reach the `end`
 }
 
 const checkValidPositions = ([currentX, currentY]) => {
