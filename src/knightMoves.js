@@ -5,12 +5,6 @@ export default knightMoves = (start, end) => {
     let queue = [];
     const rootNode = new Node(start, null);
 
-    // Handles same start/end position
-    if (JSON.stringify(rootNode.position) == JSON.stringify(end)) {
-        path.push(rootNode.position);
-        return path;
-    }
-
     queue.push(rootNode)
     let reversePath = bfsTraversal(queue, end);
     path = reversePath.reverse();
