@@ -3,15 +3,15 @@ import { Node } from './Node.js';
 export default knightMoves = (start, end) => {
     let path = [];
     let queue = [];
-    const rootNode = new Node(start);
+    const rootNode = new Node(start, null);
 
     // Handles same start/end position
-    if (JSON.stringify(start) == JSON.stringify(end)) {
-        path.push(start);
+    if (JSON.stringify(rootNode.position) == JSON.stringify(end)) {
+        path.push(rootNode.position);
         return path;
     }
 
-    queue.push(start)
+    queue.push(rootNode)
     path = bfsTraversal(queue, end);
 
     return path;
@@ -20,16 +20,22 @@ export default knightMoves = (start, end) => {
 const bfsTraversal = (queue, end) => {
     let path = [];
     while (queue.length !== 0) {
-        let current = queue.shift();
+        let currentNode = queue.shift();
         let validPositions;
 
-        if (JSON.stringify(current) === JSON.stringify(end)) {
-            path.push(current);
+        if (JSON.stringify(currentNode.position) === JSON.stringify(end)) {
+            path.push(currentNode.position);
+            while (currentNode.previousPosition !== null) {
+                path.push(currentNode.previousPosition);
+                currentNode 
+            }
             return path;
         } else {
-            path.push(current);
-            validPositions = checkValidPositions(current);
-            validPositions.forEach((validPosition) => queue.push(validPosition))
+            validPositions = checkValidPositions(currentNode.position);
+            validPositions.forEach((validPosition) => {
+                const nextNode = new Node(validPosition, currentNode.position);
+                queue.push(nextNode)
+            })
         }
     }
 }
